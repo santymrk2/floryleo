@@ -1,4 +1,4 @@
-import { type FC, useState, useRef, type FormEvent } from "react";
+import { type FC, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WEDDING } from "../data/wedding";
 
@@ -7,14 +7,9 @@ interface MusicRequestProps {
   onClose: () => void;
 }
 
-/**
- * Modal para sugerir canciones. Al enviar, abre WhatsApp
- * con un mensaje pre-armado.
- */
 const MusicRequest: FC<MusicRequestProps> = ({ isOpen, onClose }) => {
   const [song, setSong] = useState("");
   const [artist, setArtist] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -36,15 +31,15 @@ const MusicRequest: FC<MusicRequestProps> = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.2 }}
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-charcoal/40 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -53,44 +48,44 @@ const MusicRequest: FC<MusicRequestProps> = ({ isOpen, onClose }) => {
 
           {/* Modal */}
           <motion.div
-            className="relative z-10 w-full max-w-md card-glass p-8"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative z-10 w-full max-w-sm card-glass p-7 sm:p-8"
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
           >
-            {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-charcoal/50 hover:text-charcoal transition-colors text-xl leading-none"
+              className="absolute top-4 right-4 text-charcoal-light/40 hover:text-charcoal transition-colors text-lg leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-charcoal/5"
               aria-label="Cerrar"
             >
               ✕
             </button>
 
-            <h3 className="font-script text-3xl text-gold-accent mb-2">
-              Pedí tu canción
-            </h3>
-            <p className="font-sans text-sm text-charcoal/70 mb-6">
-              Decinos qué tema no puede faltar en la pista 🎶
-            </p>
+            <div className="text-center mb-6">
+              <h3 className="font-script text-3xl text-gold-accent mb-2">
+                Pedí tu canción
+              </h3>
+              <p className="font-sans text-xs text-charcoal/50">
+                Decinos qué tema no puede faltar
+              </p>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="song"
-                  className="block font-sans text-xs uppercase tracking-widest text-charcoal/60 mb-1.5"
+                  className="block font-sans text-[10px] uppercase tracking-[0.2em] text-charcoal-light/40 mb-1.5"
                 >
                   Canción
                 </label>
                 <input
-                  ref={inputRef}
                   id="song"
                   type="text"
                   value={song}
                   onChange={(e) => setSong(e.target.value)}
                   placeholder="Nombre del tema..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-gold-accent/20 bg-cream-white/60 font-sans text-sm text-charcoal placeholder:text-charcoal/30 focus:outline-none focus:ring-2 focus:ring-gold-accent/40 focus:border-gold-accent transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gold-accent/15 bg-cream-white/40 font-sans text-sm text-charcoal placeholder:text-charcoal/25 focus:outline-none focus:ring-2 focus:ring-gold-accent/30 focus:border-gold-accent/40 transition-all"
                   autoFocus
                 />
               </div>
@@ -98,7 +93,7 @@ const MusicRequest: FC<MusicRequestProps> = ({ isOpen, onClose }) => {
               <div>
                 <label
                   htmlFor="artist"
-                  className="block font-sans text-xs uppercase tracking-widest text-charcoal/60 mb-1.5"
+                  className="block font-sans text-[10px] uppercase tracking-[0.2em] text-charcoal-light/40 mb-1.5"
                 >
                   Artista
                 </label>
@@ -108,14 +103,14 @@ const MusicRequest: FC<MusicRequestProps> = ({ isOpen, onClose }) => {
                   value={artist}
                   onChange={(e) => setArtist(e.target.value)}
                   placeholder="Opcional..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-gold-accent/20 bg-cream-white/60 font-sans text-sm text-charcoal placeholder:text-charcoal/30 focus:outline-none focus:ring-2 focus:ring-gold-accent/40 focus:border-gold-accent transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gold-accent/15 bg-cream-white/40 font-sans text-sm text-charcoal placeholder:text-charcoal/25 focus:outline-none focus:ring-2 focus:ring-gold-accent/30 focus:border-gold-accent/40 transition-all"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={!song.trim()}
-                className="btn-primary w-full disabled:opacity-40 disabled:cursor-not-allowed"
+                className="btn-primary w-full mt-2 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none"
               >
                 Enviar sugerencia
               </button>

@@ -14,6 +14,7 @@ const { title = "Florencia & Leonardo · Nuestra Boda", description = "Te invita
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#4a5d23" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -28,13 +29,10 @@ const { title = "Florencia & Leonardo · Nuestra Boda", description = "Te invita
       rel="stylesheet"
     />
 
-    <!-- Global styles (Tailwind v4) -->
-    <link rel="stylesheet" href="/src/styles/globals.css" />
-
-    <!-- Favicon (placeholder) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>" />
   </head>
-  <body>
+  <body class="antialiased">
     <slot />
   </body>
 </html>

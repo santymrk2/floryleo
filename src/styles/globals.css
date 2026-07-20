@@ -4,9 +4,9 @@
    THEME — Paleta botánica + tipografía
    ============================================ */
 @theme {
-  /* Colores principales */
   --color-green-moss: #4a5d23;
   --color-green-moss-light: #6a7d3e;
+  --color-green-moss-dark: #3a4d1a;
   --color-gold-accent: #d4af37;
   --color-gold-accent-light: #e8c75a;
   --color-beige-bg: #f5f5dc;
@@ -14,14 +14,14 @@
   --color-cream-white: #fffdd0;
   --color-cream-white-dark: #f0ecc4;
   --color-charcoal: #2c2c2c;
+  --color-charcoal-light: #4a4a4a;
 
-  /* Tipografía */
   --font-script: "Great Vibes", cursive;
   --font-sans: "Montserrat", system-ui, sans-serif;
 }
 
 /* ============================================
-   LAYER: BASE — Reset y fondos
+   BASE
    ============================================ */
 @layer base {
   html {
@@ -33,163 +33,80 @@
     background-color: var(--color-beige-bg);
     color: var(--color-charcoal);
     overflow-x: hidden;
+    min-height: 100vh;
   }
 
-  /* Patrón botánico sutil en el fondo */
+  /* Sutil patrón diagonal de fondo */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    opacity: 0.6;
     background-image:
-      radial-gradient(
-        circle at 15% 5%,
-        color-mix(in srgb, var(--color-green-moss) 6%, transparent) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 85% 95%,
-        color-mix(in srgb, var(--color-gold-accent) 4%, transparent) 0%,
-        transparent 50%
-      ),
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 40px,
-        color-mix(in srgb, var(--color-green-moss) 2%, transparent) 40px,
-        color-mix(in srgb, var(--color-green-moss) 2%, transparent) 41px
-      );
+      radial-gradient(ellipse at 20% 0%, rgba(74, 93, 35, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 60%);
   }
 
-  /* Scrollbar personalizada */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-beige-bg-dark);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-green-moss);
-    border-radius: 3px;
-  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--color-beige-bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--color-green-moss); border-radius: 99px; }
 }
 
 /* ============================================
-   LAYER: COMPONENTS — Utilidades recurrentes
+   COMPONENTS
    ============================================ */
 @layer components {
   .section-padding {
-    @apply px-4 py-16 sm:px-6 sm:py-24 lg:px-8;
+    @apply px-5 py-20 sm:px-6 sm:py-28 lg:px-8;
   }
 
   .card-glass {
-    background: color-mix(in srgb, var(--color-cream-white) 60%, transparent);
-    backdrop-filter: blur(8px);
-    border: 1px solid color-mix(in srgb, var(--color-gold-accent) 20%, transparent);
-    border-radius: 0.75rem;
+    background: rgba(255, 253, 208, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 1rem;
     box-shadow:
-      0 4px 16px color-mix(in srgb, var(--color-charcoal) 6%, transparent),
-      0 1px 2px color-mix(in srgb, var(--color-charcoal) 4%, transparent);
-  }
-
-  .card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 12px 32px color-mix(in srgb, var(--color-charcoal) 10%, transparent),
-      0 2px 4px color-mix(in srgb, var(--color-charcoal) 6%, transparent);
+      0 4px 24px rgba(44, 44, 44, 0.06),
+      0 1px 3px rgba(44, 44, 44, 0.04);
   }
 
   .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 2rem;
+    @apply inline-flex items-center justify-center gap-2
+           font-sans font-semibold text-xs tracking-widest uppercase
+           rounded-full border-none cursor-pointer
+           transition-all duration-300 ease-out;
+    padding: 0.875rem 2.25rem;
     background-color: var(--color-green-moss);
     color: var(--color-cream-white);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 0.875rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    border-radius: 9999px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 14px rgba(74, 93, 35, 0.3);
   }
   .btn-primary:hover {
     background-color: var(--color-green-moss-light);
+    box-shadow: 0 6px 20px rgba(74, 93, 35, 0.4);
   }
 
   .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 2rem;
+    @apply inline-flex items-center justify-center gap-2
+           font-sans font-semibold text-xs tracking-widest uppercase
+           rounded-full cursor-pointer
+           transition-all duration-300 ease-out;
+    padding: 0.875rem 2.25rem;
     background: transparent;
     color: var(--color-green-moss);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 0.875rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    border-radius: 9999px;
     border: 1.5px solid var(--color-green-moss);
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
   .btn-secondary:hover {
     background-color: var(--color-green-moss);
     color: var(--color-cream-white);
   }
 
-  .divider-leaf {
+  .gold-divider {
     width: 60px;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--color-gold-accent),
-      transparent
-    );
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-accent), transparent);
     margin: 0 auto;
-    position: relative;
   }
-  .divider-leaf::before,
-  .divider-leaf::after {
-    content: "✦";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-gold-accent);
-    font-size: 8px;
-  }
-  .divider-leaf::before {
-    left: -12px;
-  }
-  .divider-leaf::after {
-    right: -12px;
-  }
-}
-
-/* ============================================
-   ANIMACIONES GLOBALES
-   ============================================ */
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(2deg);
-  }
-}
-
-.animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
 }
