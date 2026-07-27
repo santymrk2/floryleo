@@ -1,6 +1,6 @@
 export const WEDDING = {
-  bride: "Florencia",
-  groom: "Leonardo",
+  bride: "Flor",
+  groom: "Leo",
   date: "2026-10-24T15:15:00-03:00",
   displayDate: "24 Octubre, 2026",
   displayTime: "15:15 hs",
@@ -13,11 +13,11 @@ export const WEDDING = {
   whatsapp: "5491156333009",
 
   /** Mensajes predefinidos */
-  rsvpMessage: "¡Hola! Quiero confirmar mi asistencia al casamiento de Florencia y Leonardo 🎉",
+  rsvpMessage: "¡Hola! Quiero confirmar mi asistencia al casamiento de Flor y Leo 🎉",
   musicMessage: "¡Quiero que suene esta canción! 🎶",
 
   /** Google Calendar event */
-  calendarTitle: "Casamiento de Florencia y Leonardo",
+  calendarTitle: "Casamiento de Flor y Leo",
   calendarDescription:
     "Te esperamos para celebrar juntos este día tan especial. Nos vemos en Fiori Paseo, Escobar.",
   calendarLocation: "Fiori Paseo, Escobar",

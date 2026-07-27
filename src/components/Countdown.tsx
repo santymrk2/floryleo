@@ -2,6 +2,7 @@ import { type FC } from "react";
 import { motion } from "framer-motion";
 import { useCountdown } from "../hooks/useCountdown";
 import { WEDDING } from "../data/wedding";
+import RibbonTitle from "./RibbonTitle";
 
 /* ── Animaciones ──────────────────────────────── */
 const stagger = {
@@ -32,7 +33,7 @@ const TimeBlock: FC<TimeBlockProps> = ({ value, label }) => (
   <motion.div
     className="flex flex-col items-center rounded-2xl px-5 py-6 sm:px-7 sm:py-8 min-w-[72px] sm:min-w-[100px]"
     style={{
-      background: "rgba(255,253,208,0.5)",
+      background: "rgba(255,253,247,0.5)",
       backdropFilter: "blur(8px)",
       border: "1px solid rgba(212,175,55,0.12)",
       boxShadow: "0 4px 20px rgba(44,44,44,0.04)",
@@ -77,13 +78,10 @@ const Countdown: FC<CountdownProps> = ({ id }) => {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7 }}
       >
-        <p className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.5em] text-charcoal-light/50 mb-3">
+        <p className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.5em] text-charcoal-light/50 mb-5">
           Cuenta regresiva
         </p>
-        <h2 className="font-script text-3xl sm:text-4xl md:text-5xl text-gold-accent mb-2">
-          Faltan
-        </h2>
-        <div className="gold-divider mb-10" />
+        <RibbonTitle className="mb-10">Faltan</RibbonTitle>
 
         {isExpired ? (
           <p className="font-sans text-lg text-green-moss font-medium">

@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import { motion } from "framer-motion";
 import { WEDDING } from "../data/wedding";
+import RibbonTitle from "./RibbonTitle";
 
 interface RSVPSectionProps {
   id?: string;
@@ -16,7 +17,7 @@ const RSVPSection: FC<RSVPSectionProps> = ({ id }) => {
           style={{
             width: 500,
             height: 500,
-            background: "radial-gradient(circle, rgba(74,93,35,0.03) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(124,141,114,0.03) 0%, transparent 70%)",
           }}
         />
         <div
@@ -45,12 +46,10 @@ const RSVPSection: FC<RSVPSectionProps> = ({ id }) => {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7 }}
       >
-        <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-charcoal-light/40 mb-3">
+        <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-charcoal-light/40 mb-4">
           Nos encantaría que estés
         </p>
-        <h2 className="font-script text-4xl sm:text-5xl md:text-6xl text-gold-accent mb-5">
-          ¿Nos acompañás?
-        </h2>
+        <RibbonTitle className="mb-6">¿Nos acompañás?</RibbonTitle>
         <p className="font-sans text-sm sm:text-base text-charcoal/60 mb-12 max-w-md mx-auto leading-relaxed">
           Confirmá tu presencia y ayudanos a organizar todo para que sea una noche inolvidable.
         </p>
@@ -59,9 +58,9 @@ const RSVPSection: FC<RSVPSectionProps> = ({ id }) => {
         <motion.button
           className="btn-primary text-sm sm:text-base px-10 py-4"
           style={{
-            boxShadow: "0 8px 30px rgba(74,93,35,0.3)",
+            boxShadow: "0 8px 30px rgba(124,141,114,0.3)",
           }}
-          whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(74,93,35,0.4)" }}
+          whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(124,141,114,0.4)" }}
           whileTap={{ scale: 0.95 }}
           animate={{ scale: [1, 1.04, 1] }}
           transition={{
@@ -90,7 +89,7 @@ const RSVPSection: FC<RSVPSectionProps> = ({ id }) => {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          Florencia &amp; Leonardo · {WEDDING.displayDate}
+          {WEDDING.bride} &amp; {WEDDING.groom} · {WEDDING.displayDate}
         </motion.p>
       </motion.div>
     </section>

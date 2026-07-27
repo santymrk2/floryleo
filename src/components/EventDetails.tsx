@@ -2,6 +2,7 @@ import { type FC } from "react";
 import { motion } from "framer-motion";
 import { WEDDING } from "../data/wedding";
 import { downloadIcs, getGoogleCalendarUrl } from "../utils/calendar";
+import RibbonTitle from "./RibbonTitle";
 
 const icsEvent = {
   title: WEDDING.calendarTitle,
@@ -62,20 +63,17 @@ const EventDetails: FC<EventDetailsProps> = ({ id }) => {
         <div className="card-glass p-8 sm:p-10 md:p-12">
           {/* Header */}
           <div className="text-center mb-10">
-            <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-charcoal-light/40 mb-2">
+            <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-charcoal-light/40 mb-4">
               Detalles del evento
             </p>
-            <h2 className="font-script text-4xl sm:text-5xl text-gold-accent mb-4">
-              La Fiesta
-            </h2>
-            <div className="gold-divider" />
+            <RibbonTitle className="mb-4">La Fiesta</RibbonTitle>
           </div>
 
           {/* Info rows */}
           <div className="space-y-7 mb-10">
             {/* Fecha */}
             <div className="flex items-start gap-4">
-              <span className="mt-0.5 text-gold-accent/70 shrink-0">
+              <span className="mt-0.5 text-green-moss/70 shrink-0">
                 <CalendarIcon />
               </span>
               <div>
@@ -90,7 +88,7 @@ const EventDetails: FC<EventDetailsProps> = ({ id }) => {
 
             {/* Lugar */}
             <div className="flex items-start gap-4">
-              <span className="mt-0.5 text-gold-accent/70 shrink-0">
+              <span className="mt-0.5 text-green-moss/70 shrink-0">
                 <MapPinIcon />
               </span>
               <div>
@@ -110,7 +108,7 @@ const EventDetails: FC<EventDetailsProps> = ({ id }) => {
           {/* Botones */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <motion.button
-              className="btn-primary"
+              className="btn-secondary"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               onClick={() => window.open(getGoogleCalendarUrl(icsEvent), "_blank")}

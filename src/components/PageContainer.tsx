@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import HeroSection from "./HeroSection";
 import Countdown from "./Countdown";
+import Gallery from "./Gallery";
 import EventDetails from "./EventDetails";
 import InfoCards from "./InfoCards";
 import RSVPSection from "./RSVPSection";
@@ -14,6 +15,7 @@ const PageContainer: FC = () => {
     <main className="relative z-10">
       <HeroSection />
       <Countdown id="countdown" />
+      <Gallery id="gallery" />
       <EventDetails id="event-details" />
       <InfoCards id="info" />
       <RSVPSection id="rsvp" />

@@ -4,15 +4,15 @@
    THEME — Paleta botánica + tipografía
    ============================================ */
 @theme {
-  --color-green-moss: #4a5d23;
-  --color-green-moss-light: #6a7d3e;
-  --color-green-moss-dark: #3a4d1a;
+  --color-green-moss: #7c8d72;
+  --color-green-moss-light: #98a68e;
+  --color-green-moss-dark: #5f6f56;
   --color-gold-accent: #d4af37;
   --color-gold-accent-light: #e8c75a;
-  --color-beige-bg: #f5f5dc;
-  --color-beige-bg-dark: #e8e8c8;
-  --color-cream-white: #fffdd0;
-  --color-cream-white-dark: #f0ecc4;
+  --color-beige-bg: #f3ede2;
+  --color-beige-bg-dark: #e8e0d0;
+  --color-cream-white: #fffdf7;
+  --color-cream-white-dark: #f5f1e6;
   --color-charcoal: #2c2c2c;
   --color-charcoal-light: #4a4a4a;
 
@@ -45,7 +45,7 @@
     z-index: 0;
     opacity: 0.6;
     background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(74, 93, 35, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 0%, rgba(124, 141, 114, 0.06) 0%, transparent 60%),
       radial-gradient(ellipse at 80% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 60%);
   }
 
@@ -63,10 +63,10 @@
   }
 
   .card-glass {
-    background: rgba(255, 253, 208, 0.55);
+    background: rgba(255, 253, 247, 0.55);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(124, 141, 114, 0.14);
     border-radius: 1rem;
     box-shadow:
       0 4px 24px rgba(44, 44, 44, 0.06),
@@ -81,32 +81,33 @@
     padding: 0.875rem 2.25rem;
     background-color: var(--color-green-moss);
     color: var(--color-cream-white);
-    box-shadow: 0 4px 14px rgba(74, 93, 35, 0.3);
+    box-shadow: 0 4px 14px rgba(124, 141, 114, 0.3);
   }
   .btn-primary:hover {
     background-color: var(--color-green-moss-light);
-    box-shadow: 0 6px 20px rgba(74, 93, 35, 0.4);
+    box-shadow: 0 6px 20px rgba(124, 141, 114, 0.4);
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2
-           font-sans font-semibold text-xs tracking-widest uppercase
-           rounded-full cursor-pointer
+           font-sans font-bold text-xs tracking-widest uppercase
+           rounded-full cursor-pointer border-none
            transition-all duration-300 ease-out;
     padding: 0.875rem 2.25rem;
-    background: transparent;
-    color: var(--color-green-moss);
-    border: 1.5px solid var(--color-green-moss);
+    background-color: var(--color-cream-white);
+    color: var(--color-green-moss-dark);
+    box-shadow: 0 4px 14px rgba(44, 44, 44, 0.1);
   }
   .btn-secondary:hover {
-    background-color: var(--color-green-moss);
-    color: var(--color-cream-white);
+    background-color: var(--color-cream-white-dark);
+    box-shadow: 0 6px 20px rgba(44, 44, 44, 0.14);
+    transform: translateY(-1px);
   }
 
   .gold-divider {
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-gold-accent), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-green-moss-light), transparent);
     margin: 0 auto;
   }
 }

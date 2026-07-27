@@ -59,7 +59,7 @@ const HeroSection: FC = () => {
       <div className="absolute inset-0 z-0">
         <img
           src="/floryleo-hero.jpg"
-          alt="Florencia y Leonardo"
+          alt="Flor y Leo"
           className="w-full h-full object-cover object-center"
         />
         {/* Overlay degradado para legibilidad */}
