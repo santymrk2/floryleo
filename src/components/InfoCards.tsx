@@ -184,7 +184,7 @@ const GiftCard: FC = () => {
         </h3>
         <p className="font-sans text-sm text-charcoal/60 mb-6 leading-relaxed">
           Tu presencia es el mejor regalo. Si además querés tener un detalle con
-          nosotros, te dejamos estos datos:
+          nosotros...
         </p>
 
         <span className="inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.15em] text-green-moss/70">
@@ -205,7 +205,7 @@ const GiftCard: FC = () => {
 
         <p className="mb-5 text-center font-sans text-sm text-charcoal/60 leading-relaxed">
           Tu presencia es el mejor regalo. Si además querés tener un detalle con
-          nosotros, te dejamos estos datos:
+          nosotros...
         </p>
 
         <div className="w-full space-y-3">
@@ -312,9 +312,9 @@ const DressCodeCard: FC = () => {
         <p className="font-sans text-sm text-charcoal/60 mb-3 leading-relaxed">
           Para esta ocasión tan especial,
           <br />
-          te pedimos asistir con:
+          te pedimos asistir...
         </p>
-        <span className="inline-block font-script text-4xl text-gold-accent">
+        <span className="inline-block font-script text-4xl text-green-moss">
           {WEDDING.dressCode}
         </span>
 
@@ -332,7 +332,7 @@ const DressCodeCard: FC = () => {
           <h3 className="font-script text-3xl text-green-moss mb-2">
             Dress Code
           </h3>
-          <span className="inline-block font-script text-4xl text-gold-accent">
+          <span className="inline-block font-script text-4xl text-green-moss">
             {WEDDING.dressCode}
           </span>
         </div>

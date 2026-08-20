@@ -104,10 +104,10 @@ const HeroSection: FC = () => {
             {WEDDING.bride}
           </span>
 
-          <span className="block my-3 sm:my-5">
+          <span className="block -mt-2 sm:-mt-1 mb-6 sm:mb-9">
             <span className="inline-flex items-center gap-3">
               <span className="block w-10 sm:w-16 h-px bg-gradient-to-r from-transparent to-gold-accent/50" />
-              <span className="font-sans text-xl sm:text-2xl md:text-3xl font-extralight text-gold-accent/80">
+              <span className="font-sans text-xl sm:text-2xl md:text-3xl font-extralight text-cream-white">
                 &amp;
               </span>
               <span className="block w-10 sm:w-16 h-px bg-gradient-to-l from-transparent to-gold-accent/50" />
