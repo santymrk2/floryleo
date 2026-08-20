@@ -1,11 +1,11 @@
 import { type FC } from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useCountdown } from "../hooks/useCountdown";
 import { WEDDING } from "../data/wedding";
 import RibbonTitle from "./RibbonTitle";
 
 /* ── Animaciones ──────────────────────────────── */
-const stagger = {
+const stagger: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -13,7 +13,7 @@ const stagger = {
   },
 };
 
-const boxIn = {
+const boxIn: Variants = {
   hidden: { opacity: 0, y: 24, scale: 0.95 },
   visible: {
     opacity: 1,

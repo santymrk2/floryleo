@@ -11,19 +11,26 @@ interface IcsEvent {
   durationHours: number;
 }
 
-function formatIcsDate(isoString: string): string {
+/**
+ * Convierte un ISO string a formato iCal UTC (YYYYMMDDTHHMMSSZ).
+ * Recibe un ISO ya en UTC (de toISOString()) para máxima compatibilidad.
+ */
+function toUtcIcs(isoString: string): string {
   return isoString
     .replace(/[-:]/g, "")
     .replace(/\.\d{3}/, "")
-    .replace(/[+-]\d{2}:\d{2}/, "Z");
+    .replace(/([+-]\d{4}|Z)$/, "Z");
 }
 
 function buildIcsContent(event: IcsEvent): string {
-  const start = formatIcsDate(event.startDate);
+  const startIso = new Date(event.startDate).toISOString();
   const endDate = new Date(
     new Date(event.startDate).getTime() + event.durationHours * 60 * 60 * 1000
   );
-  const end = formatIcsDate(endDate.toISOString());
+  const start = toUtcIcs(startIso);
+  const end = toUtcIcs(endDate.toISOString());
+  const dtstamp = toUtcIcs(new Date().toISOString());
+  const uid = "casamiento-floryleo-20261024@floryleo.com";
 
   return [
     "BEGIN:VCALENDAR",
@@ -31,7 +38,10 @@ function buildIcsContent(event: IcsEvent): string {
     "PRODID:-//FloryLeo//Wedding//ES",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
+    "X-WR-CALNAME:Casamiento de Flor y Leo",
     "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${dtstamp}`,
     `DTSTART:${start}`,
     `DTEND:${end}`,
     `SUMMARY:${event.title}`,
@@ -60,18 +70,19 @@ export function downloadIcs(event: IcsEvent): void {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  // Safari cancela la descarga si se revoca la URL inmediatamente
+  window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
 }
 
 /**
  * URL para agregar el evento a Google Calendar
  */
 export function getGoogleCalendarUrl(event: IcsEvent): string {
-  const start = formatIcsDate(event.startDate);
+  const start = toUtcIcs(new Date(event.startDate).toISOString());
   const endDate = new Date(
     new Date(event.startDate).getTime() + event.durationHours * 60 * 60 * 1000
   );
-  const end = formatIcsDate(endDate.toISOString());
+  const end = toUtcIcs(endDate.toISOString());
 
   const params = new URLSearchParams({
     action: "TEMPLATE",
@@ -80,8 +91,8 @@ export function getGoogleCalendarUrl(event: IcsEvent): string {
     details: event.description,
     location: event.location,
     /**
-     * También se puede añadir &ctz=America/Argentina/Buenos_Aires
-     * pero lo dejamos en UTC para máxima compatibilidad:
+     * Fechas en UTC (Z) para máxima compatibilidad. Si se quisiera fijar la
+     * zona horaria del evento: &ctz=America/Argentina/Buenos_Aires
      */
   });
 

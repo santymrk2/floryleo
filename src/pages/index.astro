@@ -1,9 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageContainer from "../components/PageContainer";
+import PageContainerTop from "../components/PageContainerTop";
+import PageContainerBottom from "../components/PageContainerBottom";
+import GallerySection from "../components/GallerySection.astro";
 import "../styles/globals.css";
 ---
 
 <BaseLayout>
-  <PageContainer client:load />
+  <main class="relative z-10">
+    <PageContainerTop client:load />
+    <GallerySection id="gallery" />
+    <PageContainerBottom client:load />
+  </main>
 </BaseLayout>

@@ -1,0 +1,48 @@
+---
+import { getImage } from "astro:assets";
+import Gallery from "./Gallery";
+import { GALLERY_IMAGES, VIMEO_ID } from "../data/gallery";
+
+interface Props {
+  id?: string;
+}
+
+const { id = "gallery" } = Astro.props;
+
+/**
+ * Genera en build-time las versiones optimizadas de cada foto:
+ * - thumb (burbujas del collage): webp chico
+ * - full (lightbox): webp/jpeg en hasta 3 anchos con srcset
+ */
+const galleryItems = await Promise.all(
+  GALLERY_IMAGES.map(async (img) => {
+    const thumb = await getImage({
+      src: img.src,
+      widths: [96, 160, 240],
+      formats: ["webp"],
+    });
+
+    const full = await getImage({
+      src: img.src,
+      widths: [640, 1080, 1600],
+      formats: ["webp", "jpeg"],
+    });
+
+    return {
+      type: "image" as const,
+      alt: img.alt,
+      featured: Boolean(img.featured),
+      thumb: {
+        src: thumb.src,
+        srcSet: thumb.srcSet.attribute,
+      },
+      full: {
+        src: full.src,
+        srcSet: full.srcSet.attribute,
+      },
+    };
+  })
+);
+---
+
+<Gallery client:load id={id} images={galleryItems} video={{ type: "video", vimeoId: VIMEO_ID }} />

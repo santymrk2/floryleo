@@ -6,6 +6,31 @@ export const WEDDING = {
   displayTime: "15:15 hs",
   venue: "Fiori Paseo, Escobar",
   dressCode: "Elegante",
+
+  /** Detalles del dress code que se muestran al expandir la tarjeta */
+  dressCodeDetails: {
+    women: [
+      "Evitá el blanco y el marfil: están reservados para la novia.",
+      "Largo cóctel o midi, el que te haga sentir más cómoda.",
+    ],
+    men: [
+      "Traje o saco oscuro; la corbata es opcional.",
+    ],
+    palette:
+      "Verdes, dorados y tonos tierra, en sintonía con nuestra paleta.",
+    note: "El evento es al aire libre en Fiori Paseo: calzado cómodo y algo de abrigo para la noche.",
+  } as const,
+
+  /**
+   * Datos bancarios para la tarjeta de regalo.
+   * ⚠️ PLACEHOLDER — valores de prueba a simple vista (CBU con X y alias
+   * inventado). Reemplazar por los datos reales antes de publicar.
+   */
+  bankAccount: {
+    cbu: "XXXX XXXX XXXX XXXX XXXX XX",
+    alias: "punitot s",
+    holder: "Flor y Leo",
+  } as const,
   welcomeMessage:
     "Estamos muy felices de compartir este día tan especial con ustedes. Queremos que nos acompañes en uno de los momentos más importantes de nuestras vidas.",
 
