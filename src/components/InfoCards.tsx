@@ -1,6 +1,7 @@
 import { type FC, useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { WEDDING } from "../data/wedding";
+import { GIFT_PHOTOS, GIFTS, MERCADO_PAGO, type Gift } from "../data/gifts";
 import RibbonTitle from "./RibbonTitle";
 import Modal from "./Modal";
 
@@ -132,11 +133,85 @@ const DataBlock: FC<{
   </div>
 );
 
-/* ── Tarjeta de Regalo (abre modal) ────────────── */
+/* ── Íconos para la lista de regalos ───────────── */
+const ArrowLeftIcon: FC = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
+const ExternalLinkIcon: FC = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <path d="M15 3h6v6M10 14L21 3" />
+  </svg>
+);
+
+/* ── Detalle de un regalo en la grilla ─────────── */
+const GiftRow: FC<{ gift: Gift; onPick: () => void }> = ({ gift, onPick }) => (
+  <motion.article
+    className="flex items-center gap-3 rounded-2xl p-3 sm:gap-4 sm:p-3.5 text-left"
+    style={{
+      background: "rgba(255,253,247,0.7)",
+      border: "1px solid rgba(124,141,114,0.16)",
+      boxShadow: "0 2px 10px rgba(44,44,44,0.05)",
+    }}
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-20px" }}
+    transition={{ duration: 0.4 }}
+    whileHover={{ y: -3 }}
+  >
+    <div
+      className="h-20 w-20 shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-24"
+      style={{ background: "rgba(124,141,114,0.1)" }}
+    >
+      <img
+        src={GIFT_PHOTOS[gift.icon]}
+        alt={gift.name}
+        loading="lazy"
+        className="h-full w-full object-cover"
+      />
+    </div>
+
+    <div className="min-w-0 flex-1">
+      <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-gold-accent font-bold">
+        {gift.tag}
+      </p>
+      <h4 className="mt-1 font-sans text-[13px] sm:text-sm font-semibold leading-snug text-charcoal">
+        {gift.name}
+      </h4>
+      <p className="mt-1.5 font-sans text-base font-bold text-charcoal">
+        ${gift.price.toLocaleString("es-AR")}
+      </p>
+
+      <div className="mt-2.5 flex flex-wrap items-center gap-2">
+        <button
+          className="inline-flex cursor-pointer items-center gap-1 rounded-full bg-green-moss px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-cream-white transition-colors duration-300 hover:bg-green-moss-light"
+          onClick={onPick}
+        >
+          Quiero regalar esto
+        </button>
+        <a
+          className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-green-moss px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-green-moss-dark transition-colors duration-300 hover:bg-green-moss/10"
+          href={gift.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver producto
+          <ExternalLinkIcon />
+        </a>
+      </div>
+    </div>
+  </motion.article>
+);
+
+/* ── Tarjeta de Regalo (abre modal con la lista) ─ */
 const GiftCard: FC = () => {
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<Gift | null>(null);
   const [copied, setCopied] = useState<"cbu" | "alias" | null>(null);
-  const { cbu, alias, holder } = WEDDING.bankAccount;
+  const { alias, cbu, titular } = MERCADO_PAGO;
 
   const copy = async (key: "cbu" | "alias") => {
     const raw = key === "cbu" ? cbu.replace(/\s+/g, "") : alias;
@@ -155,6 +230,19 @@ const GiftCard: FC = () => {
     }
     setCopied(key);
     window.setTimeout(() => setCopied(null), 2000);
+  };
+
+  const openMercadoPago = () => {
+    const fallback = MERCADO_PAGO.webUrl;
+    const start = Date.now();
+    /* Intenta abrir la app vía deep link */
+    window.location.href = MERCADO_PAGO.appScheme;
+    /* Si en ~1.2s seguimos en la página (la app no abrió), vamos al sitio web */
+    window.setTimeout(() => {
+      if (Date.now() - start < 2000 && !document.hidden) {
+        window.location.href = fallback;
+      }
+    }, 1200);
   };
 
   return (
@@ -193,50 +281,151 @@ const GiftCard: FC = () => {
         </span>
       </motion.div>
 
-      <Modal open={open} onClose={() => setOpen(false)} ariaLabel="Datos de regalo">
-        <div className="text-center">
-          <div className="text-green-moss/70 mb-4 flex justify-center">
-            <GiftIcon />
-          </div>
-          <h3 className="font-script text-3xl text-green-moss mb-2">Regalo</h3>
-        </div>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        ariaLabel="Lista de regalos"
+        maxWidthClass="max-w-lg"
+      >
+        <AnimatePresence mode="wait">
+          {selected === null ? (
+            /* ── Paso 1: Lista de regalos ── */
+            <motion.div
+              key="list"
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="text-center">
+                <div className="text-green-moss/70 mb-4 flex justify-center">
+                  <GiftIcon />
+                </div>
+                <h3 className="font-script text-3xl text-green-moss mb-2">Regalos</h3>
+              </div>
 
-        <div className="gold-divider mb-6 mt-6" />
+              <div className="gold-divider mb-6 mt-6" />
 
-        <p className="mb-5 text-center font-sans text-sm text-charcoal/60 leading-relaxed">
-          Tu presencia es el mejor regalo. Si además querés tener un detalle con
-          nosotros...
-        </p>
+              <p className="mb-5 text-center font-sans text-sm text-charcoal/60 leading-relaxed">
+                Tu cariño y tu presencia ya son el mejor regalo. Si además querés
+                hacernos un obsequio, armamos esta lista para ayudarte a elegir algo
+                que de verdad nos haga falta en nuestra nueva casa.
+              </p>
 
-        <div className="w-full space-y-3">
-          <DataBlock
-            label="CBU"
-            value={cbu}
-            copied={copied === "cbu"}
-            onCopy={() => copy("cbu")}
-          />
-          <DataBlock
-            label="Alias"
-            value={alias}
-            copied={copied === "alias"}
-            onCopy={() => copy("alias")}
-          />
-        </div>
+              {/* Cómo funciona */}
+              <div
+                className="mb-6 rounded-2xl p-4"
+                style={{ background: "rgba(255,253,247,0.7)", border: "1px solid rgba(124,141,114,0.16)" }}
+              >
+                <p className="mb-2 font-sans text-[10px] uppercase tracking-[0.2em] text-green-moss-dark">
+                  ¿Cómo funciona?
+                </p>
+                <ol className="ml-4 list-decimal space-y-1 font-sans text-xs leading-relaxed text-charcoal/70">
+                  <li>Elegí el regalo que quieras hacernos.</li>
+                  <li>
+                    Tocá <b className="text-green-moss-dark">"Quiero regalar esto"</b> y vas a ver
+                    nuestro alias de Mercado Pago.
+                  </li>
+                  <li>
+                    Copiá el alias y hacé la transferencia por el monto que prefieras
+                    (total o parcial).
+                  </li>
+                </ol>
+              </div>
 
-        <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-green-moss/60 mt-5 text-center">
-          A nombre de {holder}
-        </p>
+              {/* Grilla de regalos */}
+              <div className="flex flex-col gap-4">
+                {GIFTS.map((gift) => (
+                  <GiftRow
+                    key={gift.icon}
+                    gift={gift}
+                    onPick={() => setSelected(gift)}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            /* ── Paso 2: Datos de Mercado Pago ── */
+            <motion.div
+              key="payment"
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 16 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="text-center">
+                <div className="text-green-moss/70 mb-4 flex justify-center">
+                  <GiftIcon />
+                </div>
+                <h3 className="font-script text-3xl text-green-moss mb-2">¡Gracias! 💛</h3>
+                <p className="mx-auto max-w-xs font-sans text-sm text-charcoal/60 leading-relaxed">
+                  Vas a regalarnos: <b className="text-charcoal">{selected.name}</b>
+                </p>
+              </div>
 
-        <div className="mt-8 text-center">
-          <motion.button
-            className="btn-secondary"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={() => setOpen(false)}
-          >
-            Entendido
-          </motion.button>
-        </div>
+              <div className="gold-divider mb-6 mt-6" />
+
+              <div className="w-full space-y-3">
+                <DataBlock
+                  label="Alias"
+                  value={alias}
+                  copied={copied === "alias"}
+                  onCopy={() => copy("alias")}
+                />
+                <DataBlock
+                  label="CBU"
+                  value={cbu}
+                  copied={copied === "cbu"}
+                  onCopy={() => copy("cbu")}
+                />
+              </div>
+
+              <p className="mt-5 text-center font-sans text-[10px] uppercase tracking-[0.15em] text-green-moss/60">
+                A nombre de {titular}
+              </p>
+
+              <div className="mt-5">
+                <motion.button
+                  className="w-full rounded-full bg-gold-accent px-6 py-3.5 font-sans text-xs font-bold uppercase tracking-widest text-cream-white shadow-md transition-colors duration-300 hover:bg-gold-accent-light"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={openMercadoPago}
+                >
+                  Abrir Mercado Pago
+                </motion.button>
+              </div>
+
+              <p className="mt-3 text-center">
+                <a
+                  className="font-sans text-xs text-green-moss-dark underline underline-offset-4"
+                  href={MERCADO_PAGO.webUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ¿No se abrió la app? Tocá acá
+                </a>
+              </p>
+
+              <div className="mt-8 flex flex-col items-center gap-3">
+                <motion.button
+                  className="btn-secondary"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setSelected(null)}
+                >
+                  <ArrowLeftIcon />
+                  Elegir otro regalo
+                </motion.button>
+                <button
+                  className="cursor-pointer font-sans text-xs text-charcoal/50 underline underline-offset-4 hover:text-charcoal transition-colors"
+                  onClick={() => setOpen(false)}
+                >
+                  Cerrar
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Modal>
     </>
   );

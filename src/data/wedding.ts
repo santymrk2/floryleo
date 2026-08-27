@@ -23,13 +23,12 @@ export const WEDDING = {
 
   /**
    * Datos bancarios para la tarjeta de regalo.
-   * ⚠️ PLACEHOLDER — valores de prueba a simple vista (CBU con X y alias
-   * inventado). Reemplazar por los datos reales antes de publicar.
+   * Fuente real: MERCADO_PAGO en src/data/gifts.ts (leorossi.icbc).
    */
   bankAccount: {
-    cbu: "XXXX XXXX XXXX XXXX XXXX XX",
-    alias: "punitot s",
-    holder: "Flor y Leo",
+    cbu: "0150866401000119159678",
+    alias: "leorossi.icbc",
+    holder: "Leo Rossi · CUIT 20423626748",
   } as const,
   welcomeMessage:
     "Estamos muy felices de compartir este día tan especial con ustedes. Queremos que nos acompañes en uno de los momentos más importantes de nuestras vidas.",
