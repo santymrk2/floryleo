@@ -140,13 +140,6 @@ const ArrowLeftIcon: FC = () => (
   </svg>
 );
 
-const ExternalLinkIcon: FC = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <path d="M15 3h6v6M10 14L21 3" />
-  </svg>
-);
-
 /* ── Detalle de un regalo en la grilla ─────────── */
 const GiftRow: FC<{ gift: Gift; onPick: () => void }> = ({ gift, onPick }) => (
   <motion.article
@@ -192,15 +185,6 @@ const GiftRow: FC<{ gift: Gift; onPick: () => void }> = ({ gift, onPick }) => (
         >
           Quiero regalar esto
         </button>
-        <a
-          className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-green-moss px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-green-moss-dark transition-colors duration-300 hover:bg-green-moss/10"
-          href={gift.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Ver producto
-          <ExternalLinkIcon />
-        </a>
       </div>
     </div>
   </motion.article>

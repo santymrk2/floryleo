@@ -50,4 +50,4 @@ export const GALLERY_IMAGES: GalleryImage[] = [
 ];
 
 /** ID del video de Vimeo que se muestra al final de la galería */
-export const VIMEO_ID = "1219692622";
+export const VIMEO_ID = "1222107323";

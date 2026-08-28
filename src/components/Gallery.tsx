@@ -49,7 +49,7 @@ const PlayIcon: FC = () => (
   </svg>
 );
 
-/* ── Burbujas ──────────────────────────────────── */
+/* ── Burbujas (fotos cuadradas redondeadas) ─────── */
 const bubbleDims: Record<string, string> = {
   sm: "w-24 h-24 sm:w-28 sm:h-28",
   md: "w-32 h-32 sm:w-36 sm:h-36",
@@ -76,7 +76,7 @@ const PhotoBubble: FC<{
     whileHover={{ scale: 1.06 }}
     whileTap={{ scale: 0.94 }}
     onClick={onClick}
-    className={`group relative overflow-hidden rounded-full cursor-pointer shadow-md ${bubbleDims[size]}`}
+    className={`group relative overflow-hidden rounded-2xl cursor-pointer shadow-md ${bubbleDims[size]}`}
     style={{ border: "2px solid rgba(124,141,114,0.28)" }}
     aria-label={`Ver foto en grande`}
   >
@@ -89,7 +89,7 @@ const PhotoBubble: FC<{
       loading="lazy"
     />
     <span
-      className="absolute inset-0 rounded-full ring-1 ring-inset ring-gold-accent/25 transition-all duration-300 group-hover:ring-gold-accent/70"
+      className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gold-accent/25 transition-all duration-300 group-hover:ring-gold-accent/70"
       aria-hidden="true"
     />
   </motion.button>
@@ -184,7 +184,7 @@ const Gallery: FC<GalleryProps> = ({ id, images, video }) => {
             <RibbonTitle>Nosotros</RibbonTitle>
           </div>
 
-          {/* Collage circular de fotos */}
+          {/* Collage de fotos cuadradas (mobile) */}
           {/* Mobile: flex-wrap centrado (igual que siempre) */}
           <motion.div
             className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:hidden"
